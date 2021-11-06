@@ -1,0 +1,12 @@
+h3{
+    text-align: center;
+}
+
+.todolist{
+    width: 400px;
+    margin: 20px auto;
+}
+
+li{
+    list-style-type: none;
+}
