@@ -3,6 +3,8 @@ import {
   OnInit
 } from '@angular/core';
 
+import { StorageService } from "../../services/storage.service";
+
 @Component({
   selector: 'app-todolist',
   templateUrl: './todolist.component.html',
@@ -13,9 +15,14 @@ export class TodolistComponent implements OnInit {
   public keyword: string;
   public todolist: any[] = [];
 
-  constructor() {}
+  constructor(public storage:StorageService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    var todolist:any=this.storage.get('todolist');
+    if (todolist) {
+      this.todolist=todolist;
+    }
+  }
 
   doAdd(e) {
     if (e.keyCode == 13) {
@@ -26,6 +33,7 @@ export class TodolistComponent implements OnInit {
         });
 
         this.keyword = '';
+        this.storage.set('todolist',this.todolist);
       } else {
         alert('Data already exists');
         this.keyword = '';
@@ -35,6 +43,7 @@ export class TodolistComponent implements OnInit {
 
   deleteDate(key) {
     this.todolist.splice(key, 1);
+    this.storage.set('todolist',this.todolist);
   }
 
   todolistHasKeyword(todolist: any, keyword: any) {
@@ -49,6 +58,10 @@ export class TodolistComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  checkboxChange(){
+    this.storage.set('todolist',this.todolist);
   }
 
 }
